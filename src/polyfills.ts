@@ -60,7 +60,7 @@ import './zone-flags.ts';
 
 import 'zone.js/dist/zone';  // Included with Angular CLI.
 
-
+import '@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js';
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */

@@ -1,0 +1,87 @@
+ion-item {
+    --inner-padding-end: 0px;
+    --ripple-color: #3880ff
+}
+.round-record {
+    width: 30px;
+    height: 30px;
+    background: #09f30bd1;
+    float: right;
+    border-radius: 50%;
+    position: absolute;
+}
+.potatoe {
+    width: 60px;
+    height: 60px;
+    background: #ee623c;
+    color:#ffffff;
+    float: right;
+    border-radius: 50%;
+    position: absolute;
+    text-align: center;
+    margin: auto;
+    display: flex;
+    z-index: 1000;
+    right: 0;
+}
+.round-record-transform {
+    height: 60px;
+    background: linear-gradient(90deg, rgba(55,127,56,0.17970938375350143) 0%, #ee623c 76%, rgb(255, 87, 34) 92%);
+    border-radius: 60px;
+    position: relative;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.transform {
+    width: 300px;
+    transition: width .2s
+}
+.normal {
+    width: 60px;
+    transition: width .2s
+}
+.round-child-record {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(90deg, #dfc5b1 0%, #e88f721f 76%, #e1bfab29 92%);
+    border-radius: 60px;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    display: flex;
+}
+ion-fab-button[mini] {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    box-shadow: none;
+    margin: auto;
+}
+ion-icon[stop] {
+    color: rgb(216, 11, 11);
+    width: 15px;
+    height: 15px;
+}
+ion-fab-button[mini] {
+    -webkit-animation: clignotant 1s infinite alternate; /* Safari 4.0 - 8.0 */
+  animation: clignotant 1s infinite alternate;
+}
+@-webkit-keyframes clignotant {
+    from {opacity: 0.1;}
+    to {opacity: 0.9;}
+  }
+  
+  /* Standard syntax */
+  @keyframes clignotant {
+    from {opacity: 0.1;}
+    to {opacity: 0.9;}
+  }
+  ion-item {
+    --padding-bottom: 2ex
+  }
+  ion-button[push] {
+    --border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }

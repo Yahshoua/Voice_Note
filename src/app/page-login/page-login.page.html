@@ -1,0 +1,52 @@
+
+   <!-- header dynamiques -->
+<app-header1></app-header1>
+<!-- fin -->
+<ion-content>
+  <div style="padding: 15px" >
+   
+
+    <div *ngFor="let note of MesNotes" (click)="goToView(note.id)">
+       <span [innerHTML] = "note.content" style="font-family: UbuntuMono-Regular;"></span>
+    </div>
+    <ion-list *ngIf="EnableAudio" lines="none" >
+        <ion-item *ngFor="let audio of audioList | async; index as i;" no-padding>
+          <ion-button color="darks" (click)="playAudio(audio.filename, i)" slot="start" push>
+            <ion-icon [name]="audio.state"></ion-icon>
+          </ion-button>
+          <p style="font-family: UbuntuMono-Regular;">
+            {{audio.titre}}
+          </p>
+          <ion-text color="dark" slot="end">
+            <p style="font-size: 15px">{{audio.temps}}</p>
+          </ion-text>
+          <ion-icon name="more" slot="end" (click)="presentPopover()"></ion-icon>
+        </ion-item>
+      </ion-list>
+  </div>
+  <div  style="position: fixed;right: 0;bottom: 0;text-align: center;margin: 3ex">
+      <!-- <ion-fab-button color="primary" (click)="callmodal()" style="position: relative;">
+        <ion-icon name="mic"></ion-icon>
+        <div class="round-record">
+
+        </div>
+      </ion-fab-button> -->
+      <div style="position: relative;">
+        <div class="round-record-transform" [ngClass]="{'normal': norecord, 'transform': !norecord}">
+                <div class="potatoe" (click)="transform1()">
+                  <ion-icon name="mic" style="margin:auto;font-size: 25px;" mic></ion-icon>
+                </div>
+                <div class="round-child-record">
+                    <ion-fab-button mini style="box-shadow: none;" color="gri" (click)="transform()">
+                        <ion-icon name="square" stop></ion-icon>
+                    </ion-fab-button>
+                </div>
+                <div style="text-align: center;color: #fff;" *ngIf="!norecord">
+                  <h4>{{secondes}}</h4>
+                </div>
+          </div>
+      </div>
+          
+      
+  </div>
+</ion-content>

@@ -1,0 +1,18 @@
+<section>
+    <div class="col-record">
+      <span style="color: #ad9f9f;font-size: 12px;">
+        Enregistrement vocal. Appuyez stop pour arreter
+      </span>
+      <div>
+        <div>
+            <ion-fab-button mini style="box-shadow: none;" color="gri" (click)="stop()">
+                <ion-icon name="square" stop></ion-icon>
+            </ion-fab-button>
+        </div>
+      </div>
+      <div> {{secondes}} </div>
+    </div>
+        <ion-button color="light" expand="full" (click)="dismissModal()" style="border-radius: 0 0 14px 14px;margin: 0;margin-top: 4px;">Annuler</ion-button> 
+    
+</section>
+ 

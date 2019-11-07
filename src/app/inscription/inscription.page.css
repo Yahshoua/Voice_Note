@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'UbuntuMono-Regular';
+    src: url('../../assets/UbuntuMono-Regular.ttf')
+}
+.text-info {
+    font-family: 'UbuntuMono-Regular';
+    text-align: center;
+}

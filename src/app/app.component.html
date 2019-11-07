@@ -1,3 +1,34 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <!-- menu lateral -->
+  <ion-menu side="start" menuId="first" contentId="content1">
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-icon name="md-person" slot="start" style="font-size: 30px;
+          margin: 10px"></ion-icon>
+          <ion-title> Mitashi Otha Anthony</ion-title>
+          <ion-icon name="md-sync" slot="end" style="font-size: 30px;
+          margin: 10px"></ion-icon>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-list lines="none">
+          <ion-item style="box-shadow: initial;">
+            <ion-icon name="md-megaphone" slot="start"></ion-icon>  Toutes les voix
+          </ion-item>
+          <ion-item style="border: none;">
+            <ion-icon name="md-trash" slot="start"></ion-icon> Corbeil
+          </ion-item>
+          <ion-item style="border: none;" lines="full">
+            <ion-icon name="md-settings" slot="start"></ion-icon> Paramètres
+          </ion-item>
+        </ion-list>
+        <ion-list lines="full">
+          <ion-item>
+              <ion-icon name="logo-facebook" color="tertiary" slot="start"></ion-icon> Aimer la page Facebook
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+  <!-- fin -->
+  <ion-router-outlet main id="content1"></ion-router-outlet>
 </ion-app>

@@ -1,0 +1,36 @@
+.col-record {
+    background: #fff;
+    padding: 2ex;
+    border-radius: 14px 14px 0 0;
+    font-size: 13px;
+    text-align: center;
+    display: grid;
+    text-align: -webkit-center;
+    line-height: 20px;
+}
+.col-record-cancel {
+    background: #fff;
+    padding: 2ex;
+    border-radius: 0px 0px 14px 14px;
+    margin-top: 5px;
+    text-align: center;
+    color: #ee623c;
+}
+ion-fab-button[mini] {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+}
+ion-icon[stop] {
+    color: rgb(216, 11, 11);
+    width: 15px;
+    height: 15px;
+}
+.ion-activatable {
+    position: relative;
+    overflow: hidden;
+  }
+ 
+  ion-fab-button {
+    --box-shadow: none !important;
+  }

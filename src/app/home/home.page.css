@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'RobotoCondensed-Bold';
+    src: url('../../assets/RobotoCondensed-Bold.ttf');
+}
+.img-logo {
+    width: 86px;;
+    margin: auto;
+}
+.home {
+    display: flex;
+    margin-top: 29vh;
+    padding: 0;
+}
+.div-parent {
+    display: grid;
+}
+.div-parent span {
+    text-align: center
+}
+.div-parent span h3 {
+    margin-top: 0;
+    font-size: 27px;
+    font-weight: bold;
+    font-family: 'RobotoCondensed-Bold';
+}
+.text-description {
+    text-align: center;
+    padding-left: 22px;
+    padding-right: 22px;
+    font-family: 'UbuntuMono-Regular';
+}
+.col-footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+}

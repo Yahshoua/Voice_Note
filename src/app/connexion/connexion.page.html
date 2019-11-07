@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-icon name="arrow-round-back" slot="start" style="font-size: 30px;
+      margin: 10px;" routerLink="/" routerDirection="back"></ion-icon>
+    <ion-title>connexion</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <form [formGroup]="formConnexion" (ngSubmit)="connexion(formConnexion.value)">
+        <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input (ionFocus)="onInputs()" [(ngModel)]="email" type="text" formControlName="email" [autofocus] = "!focused"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label position="floating">Mot de passe</ion-label>
+            <ion-input (ionFocus)="onInputs()" [(ngModel)]="password" type="password" formControlName="password" [autofocus] = "focused">
+                <ion-icon name="eye-off" slot="end" style="position: absolute;right: 0;font-size: 20px"></ion-icon>
+            </ion-input>
+        </ion-item>
+        
+        <ion-button expand="full" color="primary" type="submit" [disabled]="!formConnexion.valid">Connexion</ion-button>
+        <div style="text-align: center;">
+            <p style="font-family: UbuntuMono-Regular;color: darkslateblue;">
+              Mot de passe oublié ?
+            </p>
+        </div>
+    </form>
+</ion-content>

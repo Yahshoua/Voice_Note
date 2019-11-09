@@ -12,7 +12,6 @@ import { resolve } from 'url';
   providedIn: 'root'
 })
 export class ServiceVoiceManagerService {
-  x: NodeJS.Timer;
   constructor(public http: HttpClient, public media: Media, public file: File) { }
   private temps;
   private secondes = 1;
@@ -45,6 +44,15 @@ export class ServiceVoiceManagerService {
   timer():Observable<any> {
     return this.timers;
   }
+  delete(id) {
+      let notes = JSON.parse(localStorage.getItem("audiolist")) || []
+      console.log('note de depart ', notes, ' id a supprimer ', id)
+      notes = notes.slice(id, 1)
+      console.log('audiolist ', notes)
+      // notes = localStorage.setItem("audiolist", JSON.stringify(notes));
+      // this.record.audioList = notes
+      // this.audioListSubscribtion()
+  }
   audio: MediaObject;
   voices = new Subject();
   Record = new Subject();
@@ -55,6 +63,7 @@ export class ServiceVoiceManagerService {
   read;
   t;
   timeline: boolean;
+  y;
   timeLineSubject = new Subject();
   tomateSubject = new Subject();
   audioListSubscribtion() {
@@ -192,7 +201,17 @@ export class ServiceVoiceManagerService {
           
     })
   }
+  clearRead() {
+    clearTimeout(this.y)
+  }
    playAudio(file, i) {
+    this.read = this.record.audioList[i].temps
+    this.readingSubscribtion()
+     if(this.y) {
+       
+       this.clearRead()
+     }
+    console.log('valeur de y ', this.y)
     this.read = this.record.audioList[i].temps
      this.timeline = true
       i = parseInt(i)
@@ -214,7 +233,7 @@ export class ServiceVoiceManagerService {
       }
     let decount = this.record.audioList[i].timing
     let count = 0
-     let x =  setInterval(()=> {
+      this.y =  setInterval(()=> {
           decount--
           count++
           console.log('reading ', decount)
@@ -224,19 +243,17 @@ export class ServiceVoiceManagerService {
             this.read = '00:'+decount
          }
          if( decount == 0) {
-           this.read = this.record.audioList[i].temps
+          // this.read = this.record.audioList[i].temps
          }
          console.log('lecture...', this.read)
           if(count == this.record.audioList[i].timing) {
               console.log('stop')
               count = 0
-              clearRead()
+              this.clearRead()
           }
           this.readingSubscribtion()
       }, 1000)
-      function clearRead() {
-        clearTimeout(x)
-      }
+     
       setTimeout(()=> {
         console.log('voici i ', i , this.record.audioList[i])
         this.record.audioList[i].state = 'play'

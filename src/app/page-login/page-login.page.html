@@ -17,8 +17,8 @@
           <p style="font-family: UbuntuMono-Regular;">
             {{audio.titre}}
           </p>
-          <ion-text color="dark" slot="end">
-            <p style="font-size: 15px">{{audio.temps}}</p>
+          <ion-text slot="end">
+            <p style="font-size: 15px;color: #9e9e9ee3">{{getTime(audio.temps, audio.state)}}</p>
           </ion-text>
           <ion-icon name="more" slot="end" (click)="presentPopover()"></ion-icon>
         </ion-item>

@@ -12,6 +12,7 @@ import { resolve } from 'url';
   providedIn: 'root'
 })
 export class ServiceVoiceManagerService {
+  x: NodeJS.Timer;
   constructor(public http: HttpClient, public media: Media, public file: File) { }
   private temps;
   private secondes = 1;
@@ -50,10 +51,21 @@ export class ServiceVoiceManagerService {
   audioList = new Subject();
   duration = new Subject();
   seconde = new Subject();
+  reading = new Subject();
+  read;
   t;
+  timeline: boolean;
+  timeLineSubject = new Subject();
   tomateSubject = new Subject();
   audioListSubscribtion() {
     this.audioList.next(this.record.audioList)
+  }
+
+  timeLineSubscription() {
+    this.timeLineSubject.next(this.timeline)
+  }
+  readingSubscribtion() {
+    this.reading.next(this.read)
   }
 
   tomateSubscription() {
@@ -125,17 +137,15 @@ export class ServiceVoiceManagerService {
     return req;
   }
   //fin
-   getAudioList() {
-    return new Promise((resolve, reject)=> {
+    getAudioList() {
     if(localStorage.getItem("audiolist")) {
       this.RecordSubscription()
         this.record.audioList = JSON.parse(localStorage.getItem("audiolist"));
         this.audioListSubscribtion()
-        resolve(this.record.audioList)
-          } else {
-            resolve([])
-          }
-      })
+        return  this.record.audioList
+    } else {
+      return []
+    }
   }
   startRecord() {
     this.RecordSubscription()
@@ -147,6 +157,7 @@ export class ServiceVoiceManagerService {
     this.recording()
   }
   stopRecord() {
+    this.timeline = false
     this.RecordSubscription()
     this.audio.stopRecord();
     let index = JSON.parse(localStorage.getItem("audiolist")) || []
@@ -158,13 +169,14 @@ export class ServiceVoiceManagerService {
     this.retrieveDuration().then((res: any)=> {
       this.audio.stop()
       res = Math.floor(res)
+      const timing = res
       if( res < 10) {
         res = '00:0'+res
      } else if (res >= 10) {
        res = '00:'+res
      }
      let title = 'voix'+new Date().getDate()+new Date().getMonth()+new Date().getFullYear()+new Date().getHours()+new Date().getMinutes()+new Date().getSeconds()
-      let data = {id: index.length, filename: this.record.fileName, etat: 'play',state:'play', temps: res, titre: title};
+      let data = {id: index.length, filename: this.record.fileName, etat: 'play',state:'play', temps: res, titre: title, timing: timing};
       this.record.audioList.push(data);
       localStorage.setItem("audiolist", JSON.stringify(this.record.audioList));
       this.getAudioList();
@@ -181,6 +193,8 @@ export class ServiceVoiceManagerService {
     })
   }
    playAudio(file, i) {
+    this.read = this.record.audioList[i].temps
+     this.timeline = true
       i = parseInt(i)
       let p = i
       if(this.audio) {
@@ -198,12 +212,37 @@ export class ServiceVoiceManagerService {
       } else {
        this.record.audioList[i].state = 'square'
       }
-     this.audio.onStatusUpdate.subscribe((status) => {
-        if(status == 4) {
-            this.record.audioList[i].state = 'play'
-            this.audioListSubscribtion()
-        }
-      })
+    let decount = this.record.audioList[i].timing
+    let count = 0
+     let x =  setInterval(()=> {
+          decount--
+          count++
+          console.log('reading ', decount)
+          if( decount < 10) {
+            this.read = '00:0'+decount
+         } else if (decount >= 10) {
+            this.read = '00:'+decount
+         }
+         if( decount == 0) {
+           this.read = this.record.audioList[i].temps
+         }
+         console.log('lecture...', this.read)
+          if(count == this.record.audioList[i].timing) {
+              console.log('stop')
+              count = 0
+              clearRead()
+          }
+          this.readingSubscribtion()
+      }, 1000)
+      function clearRead() {
+        clearTimeout(x)
+      }
+      setTimeout(()=> {
+        console.log('voici i ', i , this.record.audioList[i])
+        this.record.audioList[i].state = 'play'
+        this.audioListSubscribtion()
+       
+      }, this.record.audioList[i].timing*1000)
       for(let j=0; j<this.record.audioList.length;j++) {
         if(j !== p) {
           this.record.audioList[j].state = "play"
@@ -212,10 +251,6 @@ export class ServiceVoiceManagerService {
       this.retrieveDuration().then((e)=>{
         console.log('temps ', e)
       })
-      setTimeout(()=> {
-        const time = this.audio._objectInstance._duration
-        console.log(time)
-    }, 1000)
   }
 
 }

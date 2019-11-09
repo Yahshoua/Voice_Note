@@ -29,6 +29,7 @@ export class PageLoginPage implements OnInit, OnDestroy {
   tomatoe: Promise<string>;
   tomatoes;
   timeSubscription: Subscription;
+  timeline;
   constructor(public servicemanager: ServiceVoiceManagerService, private NavCtrl: NavController, public menu: MenuController, public modalCtrl: ModalController, private nativeAudio: NativeAudio, public popoverController: PopoverController) {
   }
  
@@ -72,8 +73,17 @@ export class PageLoginPage implements OnInit, OnDestroy {
     }, 1000)
     
   }
- 
+  getTime(temps, etat) {
+    if (etat== 'play') {
+      return temps
+    } else {
+        return this.timeline
+    }
+  }
   ionViewWillEnter() {
+    this.servicemanager.reading.subscribe((e: any)=> {
+      this.timeline = e
+    })
     this.servicemanager.audioList.subscribe((e:any)=> {
         console.log('voici eeeee ', e, e.length)
         if (e.length >= 1) {
@@ -97,10 +107,15 @@ export class PageLoginPage implements OnInit, OnDestroy {
         setTimeout(()=>{
           this.norecord = !this.norecord
           console.log('no reeeecorrd')
-          
         }, 1000)
       }
    })
+  }
+  ionViewWillUnload(){
+   console.log('unload')
+  }
+  ionViewWillLeave(){
+    console.log('leave')
   }
   playAudio(fileName, i) {
     this.servicemanager.playAudio(fileName, i)
@@ -123,16 +138,16 @@ export class PageLoginPage implements OnInit, OnDestroy {
     })
     this.servicemanager.voicesSubcription()
     console.log(this.MesNotes)
-    this.servicemanager.getAudioList().then((e: any)=> {
-      console.log('toto voici e ', e.length, e)
-    if (e.length >= 1) {
-      this.audioList = new Promise((resolve, reject)=> {
-        this.EnableAudio = true;
-        resolve(e)
+    this.audioList = new Promise((resolve, reject)=> {
+      const e = this.servicemanager.getAudioList()
+                if (e.length >= 1) {
+                    this.EnableAudio = true;
+                    this.audioList = e
+                    resolve(e)
+            }
       })
-      
-    }
-})
+    
+    
   }
   openFirst() {
     this.menu.enable(true, 'first');

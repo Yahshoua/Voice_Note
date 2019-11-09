@@ -47,9 +47,12 @@ export class PageLoginPage implements OnInit, OnDestroy {
     recorder() {
       this.servicemanager.startRecord()
     }
-    async presentPopover(ev: any) {
+    async presentPopover(i, ev: any) {
       const popover = await this.popoverController.create({
         component: PopOverPage,
+        componentProps: {
+          "paramID": i
+        },
         event: ev,
         translucent: true
       });

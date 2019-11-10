@@ -47,11 +47,19 @@ export class ServiceVoiceManagerService {
   delete(id) {
       let notes = JSON.parse(localStorage.getItem("audiolist")) || []
       console.log('note de depart ', notes, ' id a supprimer ', id)
-      notes = notes.slice(id, 1)
+      notes.splice(id, 1);
+    //   for (var i = 0; i < notes.length; i++) {
+    //     var cur = notes[i];
+    //     if (cur.idex == id) {
+    //       notes.splice(i, 1);
+    //         console.log("supprimé", notes)
+    //         break;
+    //     }
+    // }
       console.log('audiolist ', notes)
-      // notes = localStorage.setItem("audiolist", JSON.stringify(notes));
-      // this.record.audioList = notes
-      // this.audioListSubscribtion()
+      notes = localStorage.setItem("audiolist", JSON.stringify(notes));
+      this.record.audioList = JSON.parse(localStorage.getItem("audiolist")) || []
+      this.audioListSubscribtion()
   }
   audio: MediaObject;
   voices = new Subject();
@@ -98,7 +106,15 @@ export class ServiceVoiceManagerService {
         this.secondeSubscrition()
       }, this.interval)
   }
-
+  writte(id, texte) {
+    console.log(this.record.audioList[id].write)
+    let poulet = this.record.audioList[id].write == false? true:false
+    this.record.audioList[id].write = poulet
+    if (texte) {
+      this.record.audioList[id].write = texte
+    }
+    this.audioListSubscribtion()
+  }
   clearRecord() {
     this.temps = '00:00'
     clearTimeout(this.t)
@@ -185,7 +201,7 @@ export class ServiceVoiceManagerService {
        res = '00:'+res
      }
      let title = 'voix'+new Date().getDate()+new Date().getMonth()+new Date().getFullYear()+new Date().getHours()+new Date().getMinutes()+new Date().getSeconds()
-      let data = {id: index.length, filename: this.record.fileName, etat: 'play',state:'play', temps: res, titre: title, timing: timing};
+      let data = {id: index.length, filename: this.record.fileName, etat: 'play',state:'play', temps: res, titre: title, timing: timing, write: false};
       this.record.audioList.push(data);
       localStorage.setItem("audiolist", JSON.stringify(this.record.audioList));
       this.getAudioList();

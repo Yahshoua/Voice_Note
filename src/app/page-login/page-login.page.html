@@ -14,9 +14,10 @@
           <ion-button color="darks" (click)="playAudio(audio.filename, i)" slot="start" push>
             <ion-icon [name]="audio.state"></ion-icon>
           </ion-button>
-          <p style="font-family: UbuntuMono-Regular;">
-            {{audio.titre}}
-          </p>
+            <p style="font-family: UbuntuMono-Regular;" *ngIf="!audio.write">
+              {{audio.titre}}
+            </p>
+              <ion-input #test (ionFocus)="hideRecord()" [autofocus] = "focus(audio.write, i)" placeholder="Enter Input" (focusout)="untouch(audio.titre, i)" *ngIf="audio.write" [(ngModel)]="audio.titre" [name]="'titre'+i"></ion-input>
           <ion-text slot="end">
             <p style="font-size: 15px;color: #9e9e9ee3">{{getTime(audio.temps, audio.state)}}</p>
           </ion-text>
@@ -31,7 +32,7 @@
 
         </div>
       </ion-fab-button> -->
-      <div style="position: relative;">
+      <div style="position: relative;" *ngIf="iconRecord">
         <div class="round-record-transform" [ngClass]="{'normal': norecord, 'transform': !norecord}">
                 <div class="potatoe" (click)="transform1()">
                   <ion-icon name="mic" style="margin:auto;font-size: 25px;" mic></ion-icon>

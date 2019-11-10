@@ -3,7 +3,7 @@ import { PopOverPage } from './../pop-over/pop-over.page';
 import { ModalRecordComponent } from './../modal-record/modal-record.component';
 import { Notes } from './../Model/notes';
 import { ServiceVoiceManagerService } from './../service-voice-manager.service';
-import { Component, OnInit, OnDestroy, Injectable } from '@angular/core';
+import { Component, OnInit, OnDestroy, Injectable, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NavController, MenuController, PopoverController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
@@ -12,6 +12,7 @@ import { timeout, reject } from 'q';
 @Injectable({
   providedIn: 'root'
 })
+
 @Component({
   selector: 'app-page-login',
   templateUrl: 'page-login.page.html',
@@ -30,11 +31,17 @@ export class PageLoginPage implements OnInit, OnDestroy {
   tomatoes;
   timeSubscription: Subscription;
   timeline;
+  iconRecord: boolean = true;
+  @ViewChild('test', { read: ElementRef, static: false}) test: ElementRef;
   constructor(public servicemanager: ServiceVoiceManagerService, private NavCtrl: NavController, public menu: MenuController, public modalCtrl: ModalController, private nativeAudio: NativeAudio, public popoverController: PopoverController) {
   }
  
- 
-
+  untouch(text, i) {
+    this.iconRecord = true;
+    this.servicemanager.writte(i, text)
+     this.test.nativeElement['autofocus'] = false;
+     console.log(this.test)
+  }
   // async callmodal() {
   //   const modal = await this.modalCtrl.create({
   //     component: ModalRecordComponent,
@@ -58,12 +65,23 @@ export class PageLoginPage implements OnInit, OnDestroy {
       });
       return await popover.present();
     }
+    focus(write) {
+      console.log(this.test)
+        if(write == true) {
+          return true
+        } else {
+          return false
+        }
+    }
     transform() {
       if(this.norecord== false) {
         this.stop()
       }
       this.norecord = !this.norecord
       console.log(this.norecord)
+    }
+    hideRecord() {
+      this.iconRecord = false;
     }
     transform1() {
       this.norecord == false ? this.stop(): this.recorder()
@@ -95,7 +113,8 @@ export class PageLoginPage implements OnInit, OnDestroy {
               resolve(e)
           })
           console.log('nouvelle valeur de audioList ', this.audioList)
-          
+        } else {
+          this.EnableAudio = false
         }
     })
     this.servicemanager.tomateSubject.subscribe((e: any)=> {

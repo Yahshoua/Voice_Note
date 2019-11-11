@@ -9,6 +9,7 @@ import { NavController, MenuController, PopoverController } from '@ionic/angular
 import { ModalController } from '@ionic/angular';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
 import { timeout, reject } from 'q';
+declare var $, jQuery: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -36,11 +37,9 @@ export class PageLoginPage implements OnInit, OnDestroy {
   constructor(public servicemanager: ServiceVoiceManagerService, private NavCtrl: NavController, public menu: MenuController, public modalCtrl: ModalController, private nativeAudio: NativeAudio, public popoverController: PopoverController) {
   }
  
-  untouch(text, i) {
+  untouch(text, id) {
     this.iconRecord = true;
-    this.servicemanager.writte(i, text)
-     this.test.nativeElement['autofocus'] = false;
-     console.log(this.test)
+    this.servicemanager.setTitre(text, id)
   }
   // async callmodal() {
   //   const modal = await this.modalCtrl.create({
@@ -54,25 +53,26 @@ export class PageLoginPage implements OnInit, OnDestroy {
     recorder() {
       this.servicemanager.startRecord()
     }
-    async presentPopover(i, ev: any) {
+    async presentPopover(i, text, ev: any) {
       const popover = await this.popoverController.create({
         component: PopOverPage,
         componentProps: {
-          "paramID": i
+          "paramID": i,
+          "text": text
         },
         event: ev,
         translucent: true
       });
       return await popover.present();
     }
-    focus(write) {
-      console.log(this.test)
-        if(write == true) {
-          return true
-        } else {
-          return false
-        }
-    }
+    // focus(write, id) {
+    //   console.log('write ', write)
+    //     if(write == true) {
+    //       return true
+    //     } else {
+    //       return false
+    //     }
+    // }
     transform() {
       if(this.norecord== false) {
         this.stop()
@@ -140,6 +140,7 @@ export class PageLoginPage implements OnInit, OnDestroy {
     console.log('leave')
   }
   playAudio(fileName, i) {
+    console.log('plaaaaaaaaaaaay')
     this.servicemanager.playAudio(fileName, i)
     // this.servicemanager.timer().subscribe(res=>{
     //     console.log(res[0])
@@ -151,6 +152,7 @@ export class PageLoginPage implements OnInit, OnDestroy {
       'dismissed': true
     });
   }
+  
   ngOnInit() {
     this.tomatoes = new Promise<string>((resolve, reject)=> {
       setTimeout(()=> resolve("LOL"), 10000)

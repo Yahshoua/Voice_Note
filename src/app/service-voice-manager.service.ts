@@ -107,13 +107,23 @@ export class ServiceVoiceManagerService {
       }, this.interval)
   }
   writte(id, texte) {
-    console.log(this.record.audioList[id].write)
-    let poulet = this.record.audioList[id].write == false? true:false
-    this.record.audioList[id].write = poulet
-    if (texte) {
+      console.log('id writte ', id)
+      for(let p=0;p<this.record.audioList.length;p++ ) {
+        this.record.audioList[p].write = false
+      }
+      let poulet = this.record.audioList[id].write == false? true:false
+      this.record.audioList[id].write = poulet
+      console.log('id writte 2', this.record.audioList[0].write) 
+   // this.audioListSubscribtion()
+  }
+  setTitre(texte, id) {
       this.record.audioList[id].write = texte
-    }
-    this.audioListSubscribtion()
+        const liste =  JSON.parse(localStorage.getItem("audiolist"))
+        liste[id].titre = texte
+        localStorage.setItem("audiolist", JSON.stringify(liste))
+        for(let p=0;p<this.record.audioList.length;p++ ) {
+          this.record.audioList[p].write = false
+        }
   }
   clearRecord() {
     this.temps = '00:00'

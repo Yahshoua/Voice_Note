@@ -85,3 +85,16 @@ ion-fab-button[mini] {
     width: 40px;
     height: 40px;
   }
+  .input {
+    border-top: none;
+    border-right: none;
+    border-bottom: 3px solid rgba(255, 87, 34, 0.86);
+    border-left: none;
+    border-image: initial;
+    padding-top: 21px;
+  }
+
+  input:focus {
+    outline-width: 0px;
+    border-bottom: 3px solid rgba(255, 87, 34, 0.86);
+  }

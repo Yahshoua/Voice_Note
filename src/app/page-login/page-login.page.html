@@ -17,11 +17,12 @@
             <p style="font-family: UbuntuMono-Regular;" *ngIf="!audio.write">
               {{audio.titre}}
             </p>
-              <ion-input #test (ionFocus)="hideRecord()" [autofocus] = "focus(audio.write, i)" placeholder="Enter Input" (focusout)="untouch(audio.titre, i)" *ngIf="audio.write" [(ngModel)]="audio.titre" [name]="'titre'+i"></ion-input>
+                <input type="text" placeholder="modifier le titre" name="'titre'+i" *ngIf="audio.write" [ngClass]="'titre'+i" class="input" (focusout)="untouch(audio.titre, i)" [(ngModel)]="audio.titre">
+                <!-- <ion-input #test (ionFocus)="hideRecord()" placeholder="modifier la note" (focusout)="untouch(audio.titre, i)" *ngIf="audio.write" [(ngModel)]="audio.titre" [name]="'titre'+i" [ngClass]="'titre'+i"></ion-input> -->
           <ion-text slot="end">
-            <p style="font-size: 15px;color: #9e9e9ee3">{{getTime(audio.temps, audio.state)}}</p>
+            <p style="font-size: 15px;color: #9e9e9ee3;font-family: UbuntuMono-Regular;">{{getTime(audio.temps, audio.state)}}</p>
           </ion-text>
-          <ion-icon name="more" slot="end" (click)="presentPopover(i)"></ion-icon>
+          <ion-icon name="more" slot="end" (click)="presentPopover(i, audio.write)"></ion-icon>
         </ion-item>
       </ion-list>
   </div>
